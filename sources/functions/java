@@ -8,8 +8,8 @@ install_java8() {
         case $codename in
             *)
                 echo_progress_start "Adding adoptopenjdk repository"
-                curl -s https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | gpg --dearmor > /usr/share/keyrings/adoptopenjdk-archive-keyring.gpg 2>> "${log}"
-                echo "deb [signed-by=/usr/share/keyrings/adoptopenjdk-archive-keyring.gpg] https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ ${codename} main" > /etc/apt/sources.list.d/adoptopenjdk.list
+                curl -s https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor > /usr/share/keyrings/adoptopenjdk-archive-keyring.gpg 2>> "${log}"
+                echo "deb [signed-by=/usr/share/keyrings/adoptopenjdk-archive-keyring.gpg] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" > /etc/apt/sources.list.d/adoptium.list
                 echo_progress_done "adoptopenjdk repos enabled"
                 apt_update
                 apt_install adoptopenjdk-8-hotspot
